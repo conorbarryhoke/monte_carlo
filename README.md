@@ -27,9 +27,17 @@ For all of these approaches, a default configuration was applied to determine th
 calculation (and efficiency of the code). 
 
 ## Nested For-loops (process_flow_modeling, call_center_simulation,call_center_simulation_v2). 
-This method explicitly loops through each time increment. It checks for new customers
+This method explicitly loops through each time increment. It checks for new customers, then 
+blocks off time for the <i>highest priority representative</i>. The information is explicitly written to a 
+data frame. Time to process default configuration: 4 minutes, 30 seconds
 
 ## Single integer operation (min_funct_)
+This method relies on calculting a single number: the exit time for a customer. This
+number is used to infer all other customer metrics. In this formulation, customers are assigned to the <i>next available</i>
+representative. Additionally, the stored data is only re-calculated as new customers arrive, 
+dramatically reducing the number of calculations.
+Once the 'day' is completed, the metrics are unpacked into a dataframe for more digestible
+content. Time to process default configuration: 45 miliseconds. 
 
 ## True Simulation / Threading (Roland_queue)
 Building on a completely different approach, this method pairs off customers with representatives
